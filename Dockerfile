@@ -1,27 +1,24 @@
 # Step 1: Use an official Maven image to build the project
-FROM maven:3.8.4-openjdk-11-slim AS builder
+FROM maven:3.8.4-openjdk-21-slim AS build
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the pom.xml and the source code into the container
-COPY pom.xml /app/
-COPY src /app/src
+
+COPY - -
 
 # Build the project with Maven (this will produce the target/*.jar)
-RUN mvn clean install -DskipTests
+RUN mvn clean install 
 
 # Step 2: Use an OpenJDK image to run the application
-FROM openjdk:11-jre-slim
+FROM openjdk:21-jre-slim
 
 # Set the working directory for the runtime container
 WORKDIR /app
 
 # Copy the JAR file from the builder container
-COPY --from=builder /app/target/your-app-name.jar /app/your-app-name.jar
+COPY --from=build /app/target/*.jar app.jar
 
-# Expose the port your app will be running on (default is 8080 for web apps)
-EXPOSE 8080
 
 # Command to run your app
-ENTRYPOINT ["java", "-jar", "/app/your-app-name.jar"]
+CMD ["java", "-jar", "app.jar"]
