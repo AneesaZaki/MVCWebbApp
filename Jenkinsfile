@@ -7,7 +7,6 @@ pipeline {
     }
 
     environment {
-        // Set environment variables for Docker login
         DOCKER_HUB_USERNAME = 'aneesazaki'  // Your Docker Hub username
         DOCKER_IMAGE_NAME = 'aneesazaki/myapp'  // Your Docker image name
     }
@@ -31,11 +30,11 @@ pipeline {
         stage('Docker Login') {
             steps {
                 script {
-                    // Securely inject Docker credentials
-                    withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    // Use Secret Text for Docker password
+                    withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'DOCKER_PASSWORD')]) {
                         // Use bat to securely login to Docker
                         bat """
-                            echo \${DOCKER_PASSWORD} | docker login -u \${DOCKER_USERNAME} --password-stdin
+                            echo \${DOCKER_PASSWORD} | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
                         """
                     }
                 }
