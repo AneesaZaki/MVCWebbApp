@@ -8,9 +8,9 @@ pipeline {
 
     environment {
         // Set environment variables for Docker login
-        DOCKER_HUB_USERNAME = 'your_dockerhub_username' // Replace with your Docker Hub username
-        DOCKER_HUB_PASSWORD = credentials('DOCKER_HUB_PASSWORD') // Jenkins secret credentials for Docker password
-        DOCKER_IMAGE_NAME = 'aneesazaki/myapp' // Replace with your desired Docker image name
+        DOCKER_HUB_USERNAME = 'aneesazaki'  // Your Docker Hub username
+        DOCKER_HUB_PASSWORD	 = credentials('DOCKER_HUB_PASSWORD	')  // Jenkins secret credentials for Docker Hub access token
+        DOCKER_IMAGE_NAME = 'aneesazaki/myapp'  // Your Docker image name
     }
 
     stages {
