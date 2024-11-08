@@ -11,7 +11,7 @@ COPY - -
 RUN mvn clean install 
 
 # Step 2: Use an OpenJDK image to run the application
-FROM openjdk:17-jre-slim
+FROM openjdk:17-jdk-slim
 
 # Set the working directory for the runtime container
 WORKDIR /app
