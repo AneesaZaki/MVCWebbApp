@@ -9,7 +9,7 @@ pipeline {
     environment {
         // Set environment variables for Docker login
         DOCKER_HUB_USERNAME = 'aneesazaki'  // Your Docker Hub username
-        DOCKER_HUB_PASSWORD	 = credentials('DOCKER_HUB_PASSWORD	')  // Jenkins secret credentials for Docker Hub access token
+        DOCKER_HUB_PASSWORD = credentials('DOCKER_HUB_PASSWORD')  // Jenkins secret credentials for Docker Hub access token
         DOCKER_IMAGE_NAME = 'aneesazaki/myapp'  // Your Docker image name
     }
 
@@ -33,7 +33,9 @@ pipeline {
             steps {
                 script {
                     // Docker login using Jenkins credentials
-                    sh "echo ${DOCKER_HUB_PASSWORD} | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin"
+                    bat """
+                    echo ${DOCKER_HUB_PASSWORD} | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
+                    """
                 }
             }
         }
@@ -43,7 +45,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
-                    sh "docker build -t ${DOCKER_IMAGE_NAME}:${env.BUILD_ID} ."
+                    bat "docker build -t ${DOCKER_IMAGE_NAME}:${env.BUILD_ID} ."
                 }
             }
         }
@@ -53,7 +55,7 @@ pipeline {
             steps {
                 script {
                     // Push Docker image to Docker Hub
-                    sh "docker push ${DOCKER_IMAGE_NAME}:${env.BUILD_ID}"
+                    bat "docker push ${DOCKER_IMAGE_NAME}:${env.BUILD_ID}"
                 }
             }
         }
