@@ -32,7 +32,7 @@ pipeline {
                 script {
                     // Use Secret Text for Docker password
                     withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'DOCKER_PASSWORD')]) {
-                        // Use bat to securely login to Docker
+                        // Secure Docker login using password from secret text
                         bat """
                             echo \${DOCKER_PASSWORD} | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
                         """
@@ -62,6 +62,7 @@ pipeline {
         }
     }
 }
+
 
 
 
